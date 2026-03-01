@@ -1,4 +1,5 @@
 
+import {ToastContainer} from "react-toastify";
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import './App.css'
 import AuthLayout from './layouts/Authlayout'
@@ -30,6 +31,7 @@ function App() {
   return (
     <>
       <RouterProvider router={routes}></RouterProvider>
+      <ToastContainer position="top-center" autoClose={3000} theme="colored"/>
       
     </>
   )
