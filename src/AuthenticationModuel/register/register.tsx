@@ -1,4 +1,4 @@
-import { FaUser, FaUserPlus } from 'react-icons/fa';
+import {  FaUser, FaUserPlus } from 'react-icons/fa';
 import logo from '../../assets/logo.png';
 import { useNavigate } from 'react-router-dom';
 import type { AxiosError } from 'axios';
@@ -51,14 +51,20 @@ function Register(){
       <div className="w-[200px] h-[45px] bg-cover bg-center bg-no-repeat" style={{backgroundImage: `url(${logo})`}}></div>
       
       {/* title */}
-      <div className="text-yellow-400 text-xl mt-5">
+      <div className="text-lime-400 text-xl mt-3">
         <h1>Create your account and start using QuizWiz!</h1>
       </div>
       
       {/* icons */}
-      <div className="flex mt-5 mb-5">
-        <div onClick={()=>navigate("/login")} className='bg-[#333333] p-4 mr-3 rounded-lg border border-transparent hover:border-yellow-400 hover:text-yellow-400 transition duration-300 cursor-pointer'><FaUser className='text-3xl'/></div>
-        <div className='bg-[#333333] p-4 rounded-lg border border-transparent hover:border-yellow-400 hover:text-yellow-400 transition duration-300 cursor-pointer'><FaUserPlus className='text-3xl'/></div>
+      <div className="flex mt-4 mb-4">
+        <div onClick={()=>navigate("/login")} className="bg-[#333333] flex flex-col items-center justify-center p-4 rounded-lg border border-transparent hover:border-lime-400 hover:text-lime-400 transition duration-300 cursor-pointer mr-2">
+          <FaUser className="text-3xl mb-1" />
+          <span>Sign in</span>
+        </div>
+        <div className='bg-[#333333] flex flex-col items-center justify-center p-4 rounded-lg border border-transparent hover:border-lime-400 hover:text-lime-400 transition duration-300 cursor-pointer'>
+          <FaUserPlus className='text-3xl mb-1'/>
+          <span>Sign up</span>
+        </div>
       </div>
 
       {/* register form */}
@@ -150,11 +156,11 @@ function Register(){
         {/* Button */}
         <div className="flex justify-between">
           <button type="submit" className="bg-gray-200 text-black px-6 py-3 rounded-lg font-semibold">
-            Sign In
+            Sign In 
           </button>
           <div>
             <span>Forget Password?</span>
-            <span className="text-yellow-400">click here</span>
+            <span className="text-lime-400">click here</span>
           </div>
         </div>
       </form>

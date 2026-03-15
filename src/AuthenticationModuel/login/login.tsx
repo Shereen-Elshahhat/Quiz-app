@@ -1,24 +1,33 @@
-import { FaUser, FaUserPlus } from 'react-icons/fa';
-import logo from '../../assets/logo.png';
-// import { AuthContext } from '../../context/Authcontext';
-// import { useContext } from 'react';
+import { FaCheckCircle, FaUser, FaUserPlus } from 'react-icons/fa';
+import logo from '../../assets/logo.png'
 import { useNavigate } from 'react-router-dom';
 import { baseURL , User_URL} from '../../constants/api';
 import type { AxiosError } from 'axios';
 import axios from 'axios';
 import {useForm} from 'react-hook-form';
 import { toast } from 'react-toastify';
+import { useAuth } from '../../context/Authcontext';
+
 
 interface LoginInputs {
   email: string;
   password: string;
 }
 interface LoginResponse {
-  token: string;
+   data: {
+    accessToken: string;
+    refreshToken: string;
+    profile: {
+      id: string;
+      email: string;
+      role: string;
+    };
+  };
+  message: string;
 }
 
 function Login(){
-  // let { saveLoginData } = useContext(AuthContext);
+  let { saveLoginData } = useAuth();
   let navigate = useNavigate();
   let {
     register,
@@ -31,7 +40,10 @@ function Login(){
       let response = await axios.post<LoginResponse>(
         `${baseURL}${User_URL.LOGIN}`,data
       );
-      localStorage.setItem("token",response.data.token);
+      console.log(response)
+      const token =response.data.data.accessToken
+      localStorage.setItem("token",token);
+      saveLoginData();
       toast.success("Login Successfully")
       navigate("/dashboard")
 
@@ -49,14 +61,20 @@ function Login(){
       <div className="w-[200px] h-[45px] bg-cover bg-center bg-no-repeat" style={{backgroundImage: `url(${logo})`}}></div>
       
       {/* title */}
-      <div className="text-yellow-400 text-xl mt-5">
+      <div className="text-lime-400 text-xl mt-5">
         <h1>Continue your learning journey with QuizWiz!</h1>
       </div>
       
       {/* icons */}
       <div className="flex mt-5 mb-5">
-        <div className='bg-[#333333] p-4 mr-3 rounded-lg border border-transparent hover:border-yellow-400 hover:text-yellow-400 transition duration-300 cursor-pointer'><FaUser className='text-3xl'/></div>
-        <div onClick={()=>navigate("/register")} className='bg-[#333333] p-4 rounded-lg border border-transparent hover:border-yellow-400 hover:text-yellow-400 transition duration-300 cursor-pointer'><FaUserPlus className='text-3xl'/></div>
+        <div className="bg-[#333333] flex flex-col items-center justify-center p-4 rounded-lg border border-transparent hover:border-lime-400 hover:text-lime-400 transition duration-300 cursor-pointer mr-2">
+          <FaUser className="text-3xl mb-1" />
+          <span>Sign in</span>
+        </div>
+        <div onClick={()=>navigate("/register")} className='bg-[#333333] flex flex-col items-center justify-center p-4 rounded-lg border border-transparent hover:border-lime-400 hover:text-lime-400 transition duration-300 cursor-pointer'>
+          <FaUserPlus className='text-3xl mb-1'/>
+          <span>Sign up</span>
+        </div>
       </div>
 
       {/* form */}
@@ -70,10 +88,6 @@ function Login(){
             placeholder="type your email"
             {...register("email", {
               required: "email is required",
-              // pattern:{
-              //   value:/^\S+@\s+$/i,
-              //   message:"Invaild email format",
-              // }
             })}
             className="w-full px-4 py-3 rounded-lg bg-transparent border border-gray-500 focus:outline-none focus:border-lime-400"
           />
@@ -99,11 +113,11 @@ function Login(){
 
         <div className="flex justify-between">
           <button type="submit" className="bg-gray-200 text-black px-6 py-3 rounded-lg font-semibold">
-            Sign In
+            Sign In 
           </button>
           <div>
             <span>Forget Password?</span>
-            <span className="text-yellow-400">click here</span>
+            <span className="text-lime-400">click here</span>
           </div>
         </div>
         
