@@ -19,7 +19,7 @@ function SideBar({ isCollapsed, setIsCollapsed }: SideBarProps){
     { name: "Log out", icon: <BiLogOut />, path: "/login",action: "logout"},
   ];
    const navigate = useNavigate();
-   const {logOutUser} =useAuth();
+   const {logOutUser,loginData} =useAuth();
     const handleLogout =()=>{
     logOutUser();
     navigate("/auth/login",{replace:true});
@@ -39,17 +39,27 @@ function SideBar({ isCollapsed, setIsCollapsed }: SideBarProps){
 
     return () => window.removeEventListener("resize", handleResize);
   }, [setIsCollapsed]);
-
+    
+    const filteredMenu =
+  loginData?.role === "Student"
+    ? menu.filter(
+        (item) =>
+          // item.name !== "Dashboard" &&
+          item.name !== "Results" &&
+          item.name !== "Students" &&
+          item.name !== "Groups"
+      )
+    : menu;
     return(
         <>
         <div className={`bg-white shadow-md transition-all duration-300${
            isCollapsed ? "w-20" : "w-72"
          }`}>
 
-         <div className="p-4 space-y-6  ">
+         <div className="p-4 space-y-6">
          
          
-        {menu.map((item, index) => (
+        {filteredMenu.map((item, index) => (
           <NavLink
             key={index}
             to={item.path}

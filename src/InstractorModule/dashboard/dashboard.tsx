@@ -11,6 +11,7 @@ import user2 from "../../assets/user3.jpg";
 import user3 from "../../assets/user4.jpg";
 import user4 from "../../assets/user2.jpg";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/Authcontext";
 
 interface GroupInfo {
   _id: string;
@@ -40,6 +41,8 @@ function Dashboard(){
     const userImages = [user1, user2, user3, user4];
     const vecImage = [vec1,vec2];
     const navigate = useNavigate();
+    const {loginData} =useAuth();
+    
 
     const getTopFiveStudent =async()=>{
         try {
@@ -48,7 +51,7 @@ function Dashboard(){
             setTopStudents(response.data);
         } catch (error) {
             const err = error as AxiosError<{ message: string }>;
-            toast.error(err.response?.data?.message || "Something went wrong");
+            // toast.error(err.response?.data?.message || "Something went wrong");
         }
     }
 
@@ -59,7 +62,7 @@ function Dashboard(){
             setTopquizzez(response.data);
         } catch (error) {
             const err = error as AxiosError<{ message: string }>;
-            toast.error(err.response?.data?.message || "Something went wrong");
+            // toast.error(err.response?.data?.message || "Something went wrong");
         }
     }
 
@@ -97,6 +100,7 @@ function Dashboard(){
         </div>
 
         {/* Top Students */}
+       {loginData?.role !== "Student"?
         <div className="bg-white rounded-xl p-3 shadow-sm">
          <div className="flex justify-between ">
           <h2 className="font-semibold mb-4">Top 5 Students</h2>
@@ -127,6 +131,7 @@ function Dashboard(){
             ))}
           </div>
         </div>
+        :""}
         </div>
         </>
     )

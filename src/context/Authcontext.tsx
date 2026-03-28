@@ -13,6 +13,7 @@ interface DecodedToken {
   email: string;
   role: string;
   exp: number;
+  token:string
 }
 
 

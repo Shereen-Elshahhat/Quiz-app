@@ -10,12 +10,16 @@ import { toast } from "react-toastify";
 import type { AxiosError } from "axios";
 import vec1 from'../../assets/vector1.png'
 import vec2 from'../../assets/vector2.png'
+import { useAuth } from "../../context/Authcontext";
+import JoinQuizModal from "../../sharedmodule/model/JoinQuizModal";
 
 
 function Quizzes(){
 const [openQuizSetup, setOpenQuizSetup] = useState(false);
+const [open , setOpen] =useState(false)
 const [code, setCode] = useState<string | null>(null);
 const [showSuccessModal, setShowSuccessModal] = useState(false);
+const {loginData}=useAuth();
 let navigate = useNavigate();
 
     return(
@@ -24,16 +28,20 @@ let navigate = useNavigate();
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
        <div className="grid grid-cols-2 gap-4">
         {/* Setup quiz */}
-        <div onClick={() => setOpenQuizSetup(true)} className="bg-white rounded-lg shadow p-2 flex flex-col items-center justify-center hover:shadow-md cursor-pointer">
+        <div onClick={() => {if (loginData?.role === "Student") {setOpen(true); 
+                             } else {setOpenQuizSetup(true);}}}
+           className="bg-white rounded-lg shadow p-2 flex flex-col items-center justify-center hover:shadow-md cursor-pointer">
           <FaBell size={50} className="text-black mb-3" />
-          <p className="font-medium">Set up a new quiz</p>
+          <p className="font-medium">{loginData?.role !== "Student"? "Set up a new quiz" :"Join Quiz"}</p>
         </div>
 
         {/* Question bank */}
+        {loginData?.role !== "Student"?
         <div onClick={() => navigate("/dashboard/questions")} className="bg-white rounded-lg shadow p-2 flex flex-col items-center justify-center hover:shadow-md cursor-pointer">
           <FaBook size={50} className="text-black mb-3" />
           <p className="font-medium">Question Bank</p>
         </div>
+        :''}
         </div>
 
         {/* Upcoming quizzes */}
@@ -104,6 +112,27 @@ let navigate = useNavigate();
         />
         )}
 
+        <JoinQuizModal
+        isOpen={open}
+        onClose={() => setOpen(false)}
+        onSubmit={async(code) => {
+          console.log("Quiz Code:", code);
+          console.log(localStorage.getItem("token"));
+          try {
+            let res =await axiosInstance.post(`${QUIZ.JOIN_QUIZ}`,{code})
+            console.log(res) 
+            const id = res.data.data.quiz;
+            toast.success("Joined quiz successfully!");
+            navigate(`/dashboard/quiz/${id}`);
+          } catch (error) {
+            const err = error as AxiosError<{ message: string }>;
+            console.log(err);
+            toast.error(err.response?.data?.message || "Something went wrong");
+          }
+          setOpen(false);
+        }}
+      />
+
         {showSuccessModal && (
         <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-50">
           <div className="bg-white rounded-xl p-8 w-[400px] text-center shadow-lg">
@@ -121,6 +150,11 @@ let navigate = useNavigate();
             <div className="flex justify-center items-center gap-2 bg-gray-100 rounded-lg px-4 py-2 mb-6">
               <span className="font-medium">CODE:</span>
               <span className="font-bold">{code}</span>
+              <button onClick={() => navigator.clipboard.writeText(code ?? "")}
+                      className="ml-2 bg-gray-300 hover:bg-gray-400 text-black px-2 py-1 rounded"
+                      title="Copy code">
+                📋
+              </button>
             </div>
 
             <button

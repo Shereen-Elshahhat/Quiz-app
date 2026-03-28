@@ -93,7 +93,7 @@ export default function Groups() {
   const getAllGroups =async(pageNumber: number = 1)=>{
           try {
               let response =await axiosInstance.get(`${Groups_URL.GETALLGroups}?page=${pageNumber}`)
-              // console.log(response.data)
+              console.log(response.data)
               setGroupList(response.data)
           } catch (error) {
               const err = error as AxiosError<{message:string}>;
@@ -188,7 +188,7 @@ export default function Groups() {
         <Modal
           isOpen={openModal}
           onClose={() => setOpenModal(false)}
-          title="Create Group">
+          title={editingGroupId ? "Update Group" : "Add Group"}>
          
          <form onSubmit={handleSubmit(onSubmit)}>
          <input
@@ -229,7 +229,7 @@ export default function Groups() {
           // onClick={createGroup}
           className="px-4 py-2 bg-black text-white rounded-lg"
         >
-          Create
+          {editingGroupId ? "Update" : "Add"}
         </button>
 
       </div>

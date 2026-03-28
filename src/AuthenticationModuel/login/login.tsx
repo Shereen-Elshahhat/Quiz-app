@@ -117,7 +117,7 @@ function Login(){
           </button>
           <div>
             <span>Forget Password?</span>
-            <span className="text-lime-400">click here</span>
+            <span onClick={()=> navigate('/forgetpass')} className="text-lime-400">click here</span>
           </div>
         </div>
         

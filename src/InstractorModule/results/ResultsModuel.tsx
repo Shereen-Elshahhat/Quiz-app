@@ -78,8 +78,8 @@ return(
               >
                 <td className="p-3">{result.quiz.title}</td>
                 <td className="hidden md:block p-3">{result.quiz.group}</td>
-                <td className="p-3">{result.participants.length} persons</td>
-                <td className="hidden md:block p-3">{result.participants.length} participants</td>
+                <td className="p-3">{result.participants?.length || 0}  persons</td>
+                <td className="hidden md:block p-3">{result.participants?.length ||0} participants</td>
                 <td className="p-3">
                   {new Date(result.quiz.createdAt).toLocaleDateString()}
                 </td>

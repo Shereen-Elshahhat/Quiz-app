@@ -45,7 +45,7 @@ function ForgetPass(){
       <div className="w-[200px] h-[45px] bg-cover bg-center bg-no-repeat" style={{backgroundImage: `url(${logo})`}}></div>
       
       {/* title */}
-      <div className="text-yellow-400 text-xl mb-16 mt-7">
+      <div className="text-lime-400 text-xl mb-16 mt-7">
         <h1>Forgot password</h1>
       </div>
       
@@ -87,7 +87,7 @@ function ForgetPass(){
         <div className='text-right space-y-4'>
           <span className='text-sm text-gray-400'>Login? </span>
           <a onClick={()=>navigate("/login")} 
-                className="text-yellow-400 cursor-pointer hover:underline text-sm">
+                className="text-lime-400 cursor-pointer hover:underline text-sm">
             Click here
           </a>
         </div>

@@ -56,7 +56,7 @@ export const Groups_URL = {
    CREATE_QUIZ: `/quiz`,
    UPDATE_QUIZ: (id: string) => `/quiz/${id}`,
    DELETE_QUIZ: (id: string) => `/quiz/${id}`,
-   JOIN_QUIZ: `/quiz/join`,
+   JOIN_QUIZ: "/quiz/join",
    SUBMIT: (id: string) => `/quiz/submit/${id}`,
    QUESTIONS_WITHOUT_ANSWERS: (id: string) => `quiz/without-answers/${id}`,
    ALL_RESULTS: `quiz/result`,

@@ -18,6 +18,8 @@ import AuthProvider from "./context/Authcontext";
 import Results from "./InstractorModule/results/ResultsModuel";
 import QuestionList from "./InstractorModule/question/QuestionList";
 import ProtectedRoute from "./sharedmodule/ProtectedRoute/ProtectedRoute";
+import Quiz from "./InstractorModule/quizzes/Quiz";
+import QuizResult from "./InstractorModule/results/QuizResult";
 
 function App() {
   const routes = createBrowserRouter([
@@ -35,7 +37,7 @@ function App() {
         
       ]
     },
-    {
+    { 
       path:"/dashboard",
       element:<ProtectedRoute><MasterLayout/></ProtectedRoute>,
       errorElement:<Notfound/>,
@@ -46,6 +48,9 @@ function App() {
         {path:"students",element:<Students/>},
         {path:"results",element:<Results/>},
         {path:"questions",element:<QuestionList/>},
+        {path:"quiz/:id",element:<Quiz/>},
+        {path:"quiz/:id/result",element:<QuizResult/>},
+        // {path:"quiz-result/:id",element:<QuizResult/>},
 
       ]
     }
